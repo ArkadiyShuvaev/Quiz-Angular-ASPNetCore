@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "../../services/data.service";
+import IQuestion from "src/app/IQuestion";
 
 
 @Component({
@@ -10,15 +11,11 @@ import { DataService } from "../../services/data.service";
 export class QuestionComponent implements OnInit {
 
     constructor(private dataService: DataService) {}
-    question: string;
+    question: IQuestion = { text: "" };
 
     ngOnInit() {
         console.log("ngOnInit ran...");
-        const posts = this.dataService.getPosts().subscribe(posts => {
-            console.log(posts)            ;
-        });
     }
-
 
     saveQuestion(question) {
         console.log(question);

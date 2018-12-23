@@ -15,6 +15,8 @@ namespace Quiz_Angular_ASPNetCore
 {
     public class Startup
     {
+        private const string CorsPolicyName = "FrontEnd";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,6 +27,11 @@ namespace Quiz_Angular_ASPNetCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(opt => opt.AddPolicy(CorsPolicyName, builder => {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -40,6 +47,7 @@ namespace Quiz_Angular_ASPNetCore
                 app.UseHsts();
             }
 
+            app.UseCors(CorsPolicyName);
             app.UseHttpsRedirection();
             app.UseMvc();
         }

@@ -2,15 +2,15 @@
     <div class="card-body">
         <h5 class="card-title">Question section</h5>
         <label for="question">Question</label>
-        <!-- [(ngModel)]="question" -->
+        <!-- #questionText -->
         <input
-            #question
+            [(ngModel)]="question.text"
             name="question"
             class="form-control"
             id="question"
             aria-describedby="questionHelp"
             placeholder="Enter question">
         <small id="questionHelp" class="form-text text-muted">Please enter your question here.</small>
-        <button class="btn btn-primary" (click)="saveQuestion(question.value)">Save</button>
+        <button class="btn btn-primary" (click)="saveQuestion(question)">Save</button>
     </div>
 </div>

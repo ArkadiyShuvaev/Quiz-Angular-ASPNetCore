@@ -2,7 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Quiz_Angular_ASPNetCore</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="frontend\**" />
+    <Content Remove="frontend\**" />
+    <EmbeddedResource Remove="frontend\**" />
+    <None Remove="frontend\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
@@ -10,6 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, Subject } from "rxjs";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
+import IQuestion from "../IQuestion";
 
 
 @Injectable({
@@ -11,14 +12,9 @@ import "rxjs/add/operator/catch";
 export class DataService {
     constructor(private http: HttpClient) {}
 
-    postQuestion(question) {
-        this.http.post("", question).subscribe(res => {
+    postQuestion(question: IQuestion) {
+        this.http.post("https://localhost:44348/api/questions", question).subscribe(res => {
             console.log(res);
         });
-    }
-
-    getPosts(): Observable<any> {
-        return this.http.get("http://jsonplaceholder.typicode.com/posts")
-        .map(res => res);
     }
 }
