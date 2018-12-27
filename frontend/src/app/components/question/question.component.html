@@ -1,16 +1,63 @@
 <div class="card"><!-- style="width: 18rem;" -->
     <div class="card-body">
         <h5 class="card-title">Question section</h5>
-        <label for="question">Question</label>
-        <!-- #questionText -->
-        <input
-            [(ngModel)]="question.text"
-            name="question"
-            class="form-control"
-            id="question"
-            aria-describedby="questionHelp"
-            placeholder="Enter question">
-        <small id="questionHelp" class="form-text text-muted">Please enter your question here.</small>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="question-text">Question</label>
+                <input
+                    [(ngModel)]="question.text"
+                    name="question-text"
+                    class="form-control"
+                    id="question-text"
+                    placeholder="Enter a question">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="question-correctAnswer">Correct answer</label>
+                <input
+                    [(ngModel)]="question.correctAnswer"
+                    name="question-correctAnswer"
+                    class="form-control"
+                    id="question-correctAnswer"
+                    placeholder="Enter a correct answer">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="question-answer1">Answer 1</label>
+                <input
+                    [(ngModel)]="question.answer1"
+                    name="question-answer1"
+                    class="form-control"
+                    id="question-answer1"
+                    placeholder="Wrong answer 1">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="question-answer2">Answer 2</label>
+                <input
+                    [(ngModel)]="question.answer2"
+                    name="question-answer2"
+                    class="form-control"
+                    id="question-answer2"
+                    placeholder="Wrong answer 2">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="question-answer3">Answer 3</label>
+                <input
+                    [(ngModel)]="question.answer3"
+                    name="question-answer3"
+                    class="form-control"
+                    id="question-answer3"
+                    placeholder="Wrong answer 3">
+            </div>
+        </div>
+
         <button class="btn btn-primary" (click)="saveQuestion(question)">Save</button>
     </div>
 </div>

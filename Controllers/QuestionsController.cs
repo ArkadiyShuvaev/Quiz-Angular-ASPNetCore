@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Quiz_Angular_ASPNetCore.Infrastructure;
 
 namespace Quiz_Angular_ASPNetCore.Controllers
 {
@@ -11,11 +13,20 @@ namespace Quiz_Angular_ASPNetCore.Controllers
     [ApiController]
     public class QuestionsController : ControllerBase
     {
+        private readonly QuizContext _context;
+
+        public QuestionsController(QuizContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            _context = context;
+        }
+
         // GET: api/Questions
         [HttpGet]
-        public IEnumerable<string> Get()
+        public Task<List<Models.Question>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _context.Questions.ToListAsync();
         }
 
         // GET: api/Questions/5
@@ -27,12 +38,15 @@ namespace Quiz_Angular_ASPNetCore.Controllers
 
         // POST: api/Questions
         [HttpPost]
-        public void Post([FromBody] Models.Question question)
+        public Task Post([FromBody] Models.Question question)
         {
             if (question == null)
             {
                 throw new ArgumentNullException(nameof(question));
             }
+
+            _context.Questions.Add(question);
+            return _context.SaveChangesAsync();
         }
 
         // PUT: api/Questions/5
