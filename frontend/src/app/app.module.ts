@@ -9,11 +9,13 @@ import { DataService } from "./services/data.service";
 import { HttpClient } from "@angular/common/http";
 import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from "./app.component";
+import { QuestionsComponent } from "./components/questions/questions.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    QuestionComponent
+    QuestionComponent,
+    QuestionsComponent
   ],
   imports: [
     BrowserModule,

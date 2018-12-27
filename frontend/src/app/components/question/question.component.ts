@@ -4,7 +4,7 @@ import IQuestion from "src/app/IQuestion";
 
 
 @Component({
-    selector: "question",
+    selector: "app-question",
     templateUrl: "./question.component.html"
 })
 
