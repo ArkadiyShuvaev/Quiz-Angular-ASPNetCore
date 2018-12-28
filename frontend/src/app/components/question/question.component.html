@@ -1,6 +1,9 @@
 <div class="card"><!-- style="width: 18rem;" -->
     <div class="card-body">
-        <h5 class="card-title">Question section</h5>
+        <h5 class="card-title">
+            <span *ngIf="!isNewQuestion">Edit question</span>
+            <span *ngIf="isNewQuestion">New question</span>
+        </h5>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="question-text">Question</label>
@@ -58,6 +61,12 @@
             </div>
         </div>
 
-        <button class="btn btn-primary" (click)="saveQuestion(question)">Save</button>
+        <button *ngIf="isNewQuestion" class="btn btn-primary" (click)="saveQuestion(question)">Save</button>
+
+        <div *ngIf="!isNewQuestion">
+            <button class="btn btn-primary update-button" (click)="updateQuestion(question)">Update</button>
+            <button class="btn btn-secondary" (click)="resetToNew()">New</button>
+        </div>
+
     </div>
 </div>

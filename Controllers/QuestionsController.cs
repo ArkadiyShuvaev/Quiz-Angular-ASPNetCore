@@ -31,28 +31,42 @@ namespace Quiz_Angular_ASPNetCore.Controllers
 
         // GET: api/Questions/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public System.Runtime.CompilerServices.ConfiguredTaskAwaitable<Models.Question> GetById(int id)
         {
-            return "value";
+            return _context.Questions.FirstOrDefaultAsync(q => q.Id == id).ConfigureAwait(false);
         }
 
         // POST: api/Questions
         [HttpPost]
-        public Task Post([FromBody] Models.Question question)
+        public async Task<IActionResult> Post([FromBody] Models.Question question)
         {
             if (question == null)
             {
                 throw new ArgumentNullException(nameof(question));
             }
 
-            _context.Questions.Add(question);
-            return _context.SaveChangesAsync();
+            await _context.Questions.AddAsync(question).ConfigureAwait(false);
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+
+            return Ok(question);
         }
 
         // PUT: api/Questions/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] Models.Question questionInput)
         {
+            var existing = await _context.Questions.FirstOrDefaultAsync(q => q.Id == id).ConfigureAwait(false);
+            if (existing == null) return BadRequest(nameof(id));
+
+            existing.Answer1 = questionInput.Answer1;
+            existing.Answer2 = questionInput.Answer2;
+            existing.Answer3 = questionInput.Answer3;
+            existing.CorrectAnswer = questionInput.CorrectAnswer;
+            existing.Text = questionInput.Text;
+
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+
+            return Ok(existing);
         }
 
         // DELETE: api/ApiWithActions/5

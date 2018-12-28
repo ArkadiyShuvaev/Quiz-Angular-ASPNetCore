@@ -10,6 +10,8 @@ import IQuestion from "../IQuestion";
   providedIn: "root"
 })
 export class DataService {
+    private selectedQuestion = new Subject<IQuestion>();
+    questionSelected = this.selectedQuestion.asObservable();
 
     constructor(private http: HttpClient) {}
 
@@ -17,6 +19,18 @@ export class DataService {
         this.http.post("https://localhost:44348/api/questions", question).subscribe(res => {
             console.log(res);
         });
+    }
+
+    updateQuestion(question: IQuestion): any {
+        this.http.put(`https://localhost:44348/api/questions/${question.id}`, question)
+            .subscribe(res => {
+                console.log(res);
+            });
+    }
+
+    selectQuestion(question: IQuestion) {
+        console.log(`selectQuestion: ${question}`);
+        this.selectedQuestion.next(question);
     }
 
     getQuestions(): Observable<IQuestion[]> {
