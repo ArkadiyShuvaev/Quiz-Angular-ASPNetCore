@@ -3,7 +3,7 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item list-group-item-action"
                 *ngFor="let question of questions"
-                (click)="dataService.selectQuestion(question)">{{question.text}}
+                (click)="selectQuestion(question)">{{question.text}}
             </li>
         </ul>
     </div>

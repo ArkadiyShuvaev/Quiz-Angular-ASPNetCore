@@ -17,4 +17,7 @@ export class QuestionsComponent implements OnInit {
         this.dataService.getQuestions().subscribe(res => this.questions = res);
     }
 
+    selectQuestion(question: IQuestion): void {
+        this.dataService.selectQuestion(question);
+    }
 }

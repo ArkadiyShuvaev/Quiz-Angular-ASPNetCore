@@ -4,6 +4,7 @@ import { Observable, Subject } from "rxjs";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import IQuestion from "../IQuestion";
+import IQuiz from "../IQuiz";
 
 
 @Injectable({
@@ -28,12 +29,18 @@ export class DataService {
             });
     }
 
-    selectQuestion(question: IQuestion) {
+    selectQuestion(question: IQuestion): void {
         console.log(`selectQuestion: ${question}`);
         this.selectedQuestion.next(question);
     }
 
     getQuestions(): Observable<IQuestion[]> {
         return this.http.get<IQuestion[]>("https://localhost:44348/api/questions");
+    }
+
+    postQuiz(quiz: IQuiz): void {
+        this.http.post("https://localhost:44348/api/quizzes", quiz).subscribe(res => {
+            console.log(res);
+        });
     }
 }

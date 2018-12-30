@@ -1,0 +1,27 @@
+<div class="card">
+    <!-- style="width: 18rem;" -->
+    <div class="card-body">
+        <h5 class="card-title">
+            <span *ngIf="!isNewQuiz">Edit quiz</span>
+            <span *ngIf="isNewQuiz">New quiz</span>
+        </h5>
+
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="quiz-title">Quiz Title</label>
+                    <input [(ngModel)]="quiz.title" name="quiz-title" class="form-control"
+                        id="quiz-title"
+                        placeholder="Enter a quiz title">
+                </div>
+            </div>
+
+            <button *ngIf="isNewQuiz" class="btn btn-primary" (click)="saveQuiz(quiz)">Save</button>
+
+            <div *ngIf="!isNewQuiz">
+                <button class="btn btn-primary update-button" (click)="updateQuiz(quiz)">Update</button>
+                <button class="btn btn-secondary" (click)="resetToNew()">New</button>
+            </div>
+        </form>
+    </div>
+</div>

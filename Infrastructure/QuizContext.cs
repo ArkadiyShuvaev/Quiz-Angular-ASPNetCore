@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Quiz_Angular_ASPNetCore.Models;
 
 namespace Quiz_Angular_ASPNetCore.Infrastructure
 {
@@ -12,5 +13,6 @@ namespace Quiz_Angular_ASPNetCore.Infrastructure
         {
         }
         public DbSet<Models.Question> Questions { get; set; }
+        public DbSet<Quiz_Angular_ASPNetCore.Models.Quiz> Quiz { get; set; }
     }
 }
