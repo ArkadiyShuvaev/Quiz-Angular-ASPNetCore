@@ -15,11 +15,18 @@ export class QuestionComponent implements OnInit {
     question: IQuestion = { text: "" };
     isNewQuestion: boolean = this.question.id === undefined;
 
+    questionList: IQuestion[] = [];
+    isQuestionListEmpty = true;
+
     ngOnInit() {
         console.log("ngOnInit ran...");
         this.dataService.questionSelected.subscribe(res => {
             this.question = res;
             this.isNewQuestion = this.question.id === undefined;
+        });
+
+        this.dataService.getQuestions().subscribe(res => {
+            this.isQuestionListEmpty = res.length === 0;
         });
     }
 

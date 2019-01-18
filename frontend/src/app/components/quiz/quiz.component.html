@@ -19,7 +19,9 @@
             <button *ngIf="isNewQuiz" class="btn btn-primary" (click)="saveQuiz(quiz)">Save</button>
 
             <div *ngIf="!isNewQuiz">
-                <button class="btn btn-primary update-button" (click)="updateQuiz(quiz)">Update</button>
+                <button class="btn btn-primary button-margin-right" (click)="editQuestions(quiz)">Edit questions</button>
+                <button class="btn btn-secondary button-margin-right" (click)="updateQuiz(quiz)">Update</button>
+                <button class="btn btn-secondary button-margin-right" routerLink="/question">Edit questions</button>
                 <button class="btn btn-secondary" (click)="resetToNew()">New</button>
             </div>
         </form>

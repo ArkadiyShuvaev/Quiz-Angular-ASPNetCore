@@ -1,0 +1,10 @@
+<div class="card">
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action"
+                *ngFor="let quiz of quizList"
+                (click)="selectQuiz(quiz)">{{quiz.title}}
+            </li>
+        </ul>
+    </div>
+</div>

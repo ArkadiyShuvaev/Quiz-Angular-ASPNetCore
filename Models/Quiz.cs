@@ -7,8 +7,10 @@ namespace Quiz_Angular_ASPNetCore.Models
     {
         [Key]
         public int Id { get; set; }
+
         [StringLength(200)]
         public string Title { get; set; }
-        public virtual ICollection<Question> Questions { get; set; }
+
+        public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
     }
 }

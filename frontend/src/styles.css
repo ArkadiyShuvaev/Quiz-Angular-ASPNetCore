@@ -3,3 +3,11 @@
 
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome/css/font-awesome.css";
+
+.card {
+    margin-bottom: 10px;
+}
+
+.list-group-item-action {
+    cursor: pointer;
+}

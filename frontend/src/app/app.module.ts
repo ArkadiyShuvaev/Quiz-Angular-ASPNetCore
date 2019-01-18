@@ -14,6 +14,7 @@ import { QuestionsComponent } from "./components/questions/questions.component";
 import { HomeComponent } from "./components/home/home.component";
 import { NavComponent } from "./components/nav/nav.component";
 import { QuizComponent } from "./components/quiz/quiz.component";
+import { QuizListComponent } from "./components/quiz-list/quiz-list.component";
 
 const routes = [
     { path: "", component: HomeComponent},
@@ -28,7 +29,8 @@ const routes = [
     QuestionsComponent,
     HomeComponent,
     NavComponent,
-    QuizComponent
+    QuizComponent,
+    QuizListComponent
   ],
   imports: [
     BrowserModule,

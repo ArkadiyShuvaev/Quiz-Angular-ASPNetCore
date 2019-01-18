@@ -15,9 +15,23 @@ export class QuizComponent implements OnInit {
     isNewQuiz: boolean = this.quiz.id === undefined;
 
     ngOnInit() {
+        this.dataService.quizSelected.subscribe(res => {
+            this.quiz = res;
+            this.isNewQuiz = this.quiz.id === undefined;
+        });
     }
 
     saveQuiz(quiz: IQuiz): void {
         this.dataService.postQuiz(quiz);
     }
+
+    resetToNew() {
+        this.quiz = {} as IQuiz;
+        this.isNewQuiz = true;
+    }
+
+    updateQuiz(quiz: IQuiz): void {
+        this.dataService.updateQuiz(quiz).subscribe();
+    }
+
 }
