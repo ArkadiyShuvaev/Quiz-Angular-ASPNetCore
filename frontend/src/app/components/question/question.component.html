@@ -1,8 +1,8 @@
 <div class="card"><!-- style="width: 18rem;" -->
     <div class="card-body">
         <h5 class="card-title">
-            <span *ngIf="!isNewQuestion">Edit question</span>
-            <span *ngIf="isNewQuestion">New question</span>
+            <span *ngIf="!isNewQuestion">Edit question for quiz # {{ _quizId }}</span>
+            <span *ngIf="isNewQuestion">New question for quiz # {{ _quizId }}</span>
         </h5>
         <div class="form-row">
             <div class="form-group col-md-6">

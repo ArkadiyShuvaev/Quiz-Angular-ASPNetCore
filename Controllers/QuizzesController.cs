@@ -25,19 +25,22 @@ namespace Quiz_Angular_ASPNetCore.Controllers
         [HttpGet]
         public IEnumerable<Quiz> GetQuiz()
         {
-            return _context.Quiz;
+            return _context.Quiz.Include(nameof(Quiz.Questions));
         }
 
+        
         // GET: api/Quizzes/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetQuiz([FromRoute] int id)
+        [HttpGet("{quizId}")]
+        public async Task<IActionResult> GetQuiz([FromRoute] int quizId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var quiz = await _context.Quiz.FindAsync(id);
+            var quiz = await _context.Quiz
+                .Include(nameof(Quiz.Questions))
+                .FirstOrDefaultAsync(q => q.Id == quizId);
 
             if (quiz == null)
             {

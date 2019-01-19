@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, Subject } from "rxjs";
 import "rxjs/add/operator/map";
 import { of } from "rxjs/observable/of";
-import {catchError, tap} from "rxjs/operators";
+import {catchError, tap, map } from "rxjs/operators";
 import IQuestion from "../IQuestion";
 import IQuiz from "../IQuiz";
 import { QuestionsComponent } from "../components/questions/questions.component";
@@ -47,6 +47,15 @@ export class DataService {
     selectQuiz(quiz: IQuiz): void {
         console.log(`selectQuiz: ${quiz}`);
         this.selectedQuiz.next(quiz);
+    }
+
+    getQuestionsByQuizId(quizId: number): Observable<IQuestion[]> {
+        return this.http.get<IQuiz>("https://localhost:44348/api/quizzes/" + quizId)
+            .pipe(
+                tap(_ => console.log(`fetched questions with id: ${quizId}`)),
+                    catchError(this.handleError<IQuiz>("updateQuiz", {} as IQuiz)),
+                map<IQuiz, IQuestion[]>(resp => resp.questions),
+            );
     }
 
     getQuestions(): Observable<IQuestion[]> {

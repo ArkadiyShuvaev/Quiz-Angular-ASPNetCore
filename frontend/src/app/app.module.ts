@@ -20,6 +20,7 @@ const routes = [
     { path: "", component: HomeComponent},
     { path: "question", component: QuestionComponent},
     { path: "questions", component: QuestionsComponent},
+    { path: "questions/:quizId", component: QuestionComponent},
     { path: "quiz", component: QuizComponent}
 ];
 @NgModule({

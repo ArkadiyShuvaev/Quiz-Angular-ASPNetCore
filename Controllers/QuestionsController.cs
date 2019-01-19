@@ -45,7 +45,14 @@ namespace Quiz_Angular_ASPNetCore.Controllers
                 throw new ArgumentNullException(nameof(question));
             }
 
-            await _context.Questions.AddAsync(question).ConfigureAwait(false);
+            var existingQuiz = await _context.Quiz.FirstOrDefaultAsync(q => q.Id == question.QuizId).ConfigureAwait(false);
+            if (existingQuiz == null)
+            {
+                return NotFound($"Quiz with {question.QuizId} id cannot be found");
+            }
+
+            existingQuiz.Questions.Add(question);
+            //await _context.Questions.AddAsync(question).ConfigureAwait(false);
             await _context.SaveChangesAsync().ConfigureAwait(false);
 
             return Ok(question);

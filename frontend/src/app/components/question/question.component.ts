@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "../../services/data.service";
 import IQuestion from "src/app/IQuestion";
-
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: "app-question",
@@ -11,8 +11,14 @@ import IQuestion from "src/app/IQuestion";
 
 export class QuestionComponent implements OnInit {
 
-    constructor(private dataService: DataService) {}
-    question: IQuestion = { text: "" };
+    constructor(private dataService: DataService,
+        private route: ActivatedRoute) {
+            this._quizId = parseInt(route.snapshot.paramMap.get("quizId"));
+            console.log("_quizId: " + this._quizId);
+        }
+
+    question: IQuestion = { text: "", quizId: 0 };
+    _quizId = 0;
     isNewQuestion: boolean = this.question.id === undefined;
 
     questionList: IQuestion[] = [];
@@ -35,8 +41,8 @@ export class QuestionComponent implements OnInit {
         this.question = {} as IQuestion;
     }
 
-    saveQuestion(question) {
-        console.log(question);
+    saveQuestion(question: IQuestion) {
+        question.quizId = this._quizId;
         this.dataService.postQuestion(question);
     }
 
