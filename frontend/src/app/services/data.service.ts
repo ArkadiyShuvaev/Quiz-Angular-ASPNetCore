@@ -1,12 +1,15 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable, Subject } from "rxjs";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Subject } from "rxjs/Subject";
+import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import { of } from "rxjs/observable/of";
 import {catchError, tap, map } from "rxjs/operators";
 import IQuestion from "../IQuestion";
 import IQuiz from "../IQuiz";
 import { QuestionsComponent } from "../components/questions/questions.component";
+import IRegisterResult from "../IRegisterResult";
+import IUser from "../IUser";
 
 
 @Injectable({
@@ -86,6 +89,24 @@ export class DataService {
             .pipe(
                 tap(_ => console.log("fetched quizzes")),
                 catchError(this.handleError<IQuiz[]>("getQuizzes", []))
+            );
+    }
+
+    // doesEmailExist(value: string): Observable<boolean> {
+    //     return this.http.get<boolean>(`https://localhost:44348/api/account/IsExistByEmail?email=${value}`);
+    // }
+
+    registerUser(user: IUser): Observable<IRegisterResult> {
+        return this.http.post("https://localhost:44348/api/account", user, {responseType: "text"})
+            .pipe(
+                map(result => {
+                    localStorage.setItem("token", result);
+                    return {isSuccessful: true, error: null} as IRegisterResult;
+                }),
+                catchError(error => {
+                    const err = error as HttpErrorResponse;
+                    return of({isSuccessful: false, error: err.error} as IRegisterResult);
+                })
             );
     }
 

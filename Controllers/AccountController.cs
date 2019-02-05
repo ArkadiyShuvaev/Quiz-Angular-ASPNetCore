@@ -43,6 +43,16 @@ namespace Quiz_Angular_ASPNetCore.Controllers
             return Ok(new JwtSecurityTokenHandler().WriteToken(jwt));
         }
 
+        //[HttpGet("IsExistByEmail")]
+        //public async Task<IActionResult> IsExistByEmail(string email)
+        //{
+        //    if (email == null) return BadRequest(nameof(email));
+
+        //    var result = await _userManager.FindByEmailAsync(email).ConfigureAwait(false);
+
+        //    return result == null ? Ok(false) : Ok(true);
+        //}
+
         public class Credentials
         {
             public string Email { get; set; }

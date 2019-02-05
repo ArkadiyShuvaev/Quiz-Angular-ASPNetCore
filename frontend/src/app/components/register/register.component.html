@@ -8,11 +8,13 @@
                 <label for="email">Email</label>
                 <input formControlName="email"
                     class="form-control"
+                    [ngClass]="{ 'is-invalid': form.email.touched && form.email.errors }"
                     type="email"
                     id="email"
                     placeholder="Enter your login name">
-                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-                        <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                    <div *ngIf="form.email.errors" class="invalid-feedback">
+                        <div *ngIf="form.email.errors.email">Email must be a valid email address</div>
+                        <div *ngIf="form.email.errors.required">Email is required</div>
                     </div>
             </div>
             <div class="form-group">
@@ -20,29 +22,59 @@
                 <input formControlName="password"
                     type="password"
                     class="form-control"
+                    [ngClass]="{ 'is-invalid': form.password.touched
+                                                && (form.password.errors
+                                                    || registerForm.errors?.arePasswordsNotIdentity)}"
                     id="password"
                     placeholder="Enter password">
+                    <div *ngIf="registerForm.errors?.arePasswordsNotIdentity || form.password.errors"
+                        class="invalid-feedback">
+                        <div *ngIf="form.password.errors?.required">Password is required</div>
+                        <div *ngIf="registerForm.errors?.arePasswordsNotIdentity
+                                        && form.repeatPassword.touched">Passwords must be identical</div>
+                        <div *ngIf="form.password.errors?.minlength">
+                            Password must be at least '{{minLength}}' characters</div>
+                    </div>
             </div>
             <div class="form-group">
                 <label for="repeat-password">Repeat Password</label>
                 <input formControlName="repeatPassword"
                     type="password"
                     class="form-control"
-                    id="repeat-password"
+                    [ngClass]="{ 'is-invalid': form.repeatPassword.touched
+                                                && (form.repeatPassword.errors
+                                                    || registerForm.errors?.arePasswordsNotIdentity)}"
+                    id="repeatPassword"
                     placeholder="Repeat password">
+                    <div *ngIf="registerForm.errors?.arePasswordsNotIdentity || form.repeatPassword.errors"
+                        class="invalid-feedback">
+                        <div *ngIf="form.repeatPassword.errors?.required">Password is required</div>
+                        <div *ngIf="registerForm.errors?.arePasswordsNotIdentity && form.password.touched">
+                            Passwords must be identical</div>
+                        <div *ngIf="form.repeatPassword.errors?.minlength">
+                            Password must be at least '{{minLength}}' characters</div>
+                    </div>
             </div>
             <button type="submit"
                 class="btn btn-primary"
                 [disabled]="!registerForm.valid">Register</button>
 
-                <p>
+                <!-- <p>
                     Form Status: {{ registerForm.status }}
                 </p>
 
                 <p>
                     Form Value: {{ registerForm.value | json }}
-                  </p>
 
+                  </p>
+                <p>form.password.touched: {{form.password.touched}}</p>
+                <p>form.repeatPassword.touched: {{form.repeatPassword.touched}}</p>
+                <p>form.password.errors: {{ form.password.errors | json }}</p>
+                <p>form.repeatPassword.errors: {{ form.repeatPassword.errors | json }}</p>
+
+                <p>registerForm.errors?.arePasswordsNotIdentity: {{registerForm.errors?.arePasswordsNotIdentity | json}}</p>
+                <p>registerForm.errors?.arePasswordsNotIdentity || form.repeatPassword.errors : {{registerForm.errors?.arePasswordsNotIdentity || form.repeatPassword.errors | json}}</p>
+                <p>registerForm.errors?.arePasswordsNotIdentity && form.password.touched : {{registerForm.errors?.arePasswordsNotIdentity && form.password.touched | json}}</p> -->
 
         </form>
     </div>
