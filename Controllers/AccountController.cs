@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Quiz_Angular_ASPNetCore.Infrastructure;
 
 namespace Quiz_Angular_ASPNetCore.Controllers
@@ -14,9 +16,11 @@ namespace Quiz_Angular_ASPNetCore.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserDbContext _userContext;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+
+        public static SymmetricSecurityKey SigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes("this key should be stored into configuration store"));
 
         public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
@@ -39,7 +43,9 @@ namespace Quiz_Angular_ASPNetCore.Controllers
 
             await _signInManager.SignInAsync(user, isPersistent: false);
 
-            var jwt = new JwtSecurityToken();
+            var signCred = new SigningCredentials(SigningKey, SecurityAlgorithms.HmacSha256);
+            var jwt = new JwtSecurityToken(signingCredentials: signCred);
+
             return Ok(new JwtSecurityTokenHandler().WriteToken(jwt));
         }
 
