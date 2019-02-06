@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -43,8 +44,14 @@ namespace Quiz_Angular_ASPNetCore.Controllers
 
             await _signInManager.SignInAsync(user, isPersistent: false);
 
+            var claims = new Claim[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id)
+            };
+
+
             var signCred = new SigningCredentials(SigningKey, SecurityAlgorithms.HmacSha256);
-            var jwt = new JwtSecurityToken(signingCredentials: signCred);
+            var jwt = new JwtSecurityToken(signingCredentials: signCred, claims: claims);
 
             return Ok(new JwtSecurityTokenHandler().WriteToken(jwt));
         }

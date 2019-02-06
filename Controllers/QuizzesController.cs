@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +14,7 @@ namespace Quiz_Angular_ASPNetCore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class QuizzesController : ControllerBase
     {
         private readonly QuizContext _context;
@@ -26,7 +28,8 @@ namespace Quiz_Angular_ASPNetCore.Controllers
         [HttpGet]
         public IEnumerable<Quiz> GetQuiz()
         {
-            return _context.Quiz.Include(nameof(Quiz.Questions));
+            var userId = GetCurrentUserId();
+            return _context.Quiz.Include(nameof(Quiz.Questions)).Where(q => q.OwnerId == userId);
         }
 
         
@@ -87,19 +90,31 @@ namespace Quiz_Angular_ASPNetCore.Controllers
         }
 
         // POST: api/Quizzes
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> PostQuiz([FromBody] Quiz quiz)
+        public async Task<IActionResult> PostQuiz([FromBody] QuizDto quizDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            var userId = GetCurrentUserId();
+            var quiz = new Quiz
+            {
+                Questions = quizDto.Questions,
+                Title = quizDto.Title,
+                OwnerId = userId
+            };
+
             _context.Quiz.Add(quiz);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetQuiz", new { id = quiz.Id }, quiz);
+        }
+
+        private Guid GetCurrentUserId()
+        {
+            return new Guid(HttpContext.User.Claims.First(c => c.Properties.Any(p => p.Value == JwtRegisteredClaimNames.Sub)).Value);
         }
 
         // DELETE: api/Quizzes/5
