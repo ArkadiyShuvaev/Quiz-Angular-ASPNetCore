@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "33591b20-69f9-4d87-8b14-7896007cfed5",
+		"name": "Angular-NetCore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PostQuestion",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"text\" : \"question 11\",\n\t\"CorrectAnswer\": \"correct answer 11\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44348/api/questions/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44348",
+					"path": [
+						"api",
+						"questions",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RegisterAccount",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\" : \"shuvaev.arkady@gmail.com\",\n\t\"password\": \"P@ssword1\",\n\t\"re\": \"re\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44348/api/account",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44348",
+					"path": [
+						"api",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DoesAccountExist",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\" : \"shuvaev.arkady@gmail.com\",\n\t\"password\": \"P@ssword1\",\n\t\"re\": \"re\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44348/api/account",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44348",
+					"path": [
+						"api",
+						"account"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
