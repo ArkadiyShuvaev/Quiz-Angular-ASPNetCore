@@ -8,7 +8,7 @@ import { QuestionComponent } from "./components/question/question.component";
 
 
 import { DataService } from "./services/data.service";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from "./components/app/app.component";
 import { QuestionsComponent } from "./components/questions/questions.component";
@@ -17,6 +17,7 @@ import { NavComponent } from "./components/nav/nav.component";
 import { QuizComponent } from "./components/quiz/quiz.component";
 import { QuizListComponent } from "./components/quiz-list/quiz-list.component";
 import { RegisterComponent } from "./components/register/register.component";
+import { AuthInterceptorService } from "./services/auth.interceptor.service";
 
 const routes = [
     { path: "", component: HomeComponent},
@@ -44,7 +45,11 @@ const routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [HttpClient, DataService],
+  providers: [HttpClient, DataService, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
