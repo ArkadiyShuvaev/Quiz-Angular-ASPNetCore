@@ -11,6 +11,23 @@ import {catchError, map } from "rxjs/operators";
   providedIn: "root"
 })
 export class AuthService {
+    private readonly tokenPropName = "token";
+
+    public isAuthenticated() {
+        const result = !!localStorage.getItem(this.tokenPropName);
+        return result;
+    }
+
+    logoutUser(): void {
+
+        localStorage.removeItem(this.tokenPropName);
+
+        // return of(null).pipe(
+        //     map(() => {
+        //         return {isSuccessful: true, error: null} as IAuthResult;
+        //     })
+        // );
+    }
 
     constructor(private http: HttpClient) { }
 
@@ -29,7 +46,7 @@ export class AuthService {
     }
 
     private saveToken(result: string) {
-        localStorage.setItem("token", result);
+        localStorage.setItem(this.tokenPropName, result);
     }
 
     registerUser(user: IUser): Observable<IAuthResult> {
