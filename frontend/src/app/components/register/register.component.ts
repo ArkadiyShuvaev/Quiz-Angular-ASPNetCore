@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators, ValidatorFn, ValidationErrors, AbstractControl } from "@angular/forms";
-import { DataService } from "src/app/services/data.service";
+import { FormControl, FormGroup, Validators, ValidatorFn, ValidationErrors } from "@angular/forms";
 import IUser from "src/app/IUser";
+import { AuthService } from "src/app/services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-register",
@@ -14,7 +15,7 @@ export class RegisterComponent implements OnInit {
 
     private readonly minLength = 5;
 
-    constructor(private _dataService: DataService) { }
+    constructor(private authService: AuthService, private router: Router) { }
 
     onSubmit() {
         this.isSubmitted = true;
@@ -25,10 +26,12 @@ export class RegisterComponent implements OnInit {
 
         const cred = this.registerForm.value as IUser;
 
-        this._dataService.registerUser(cred).subscribe(result => {
+        this.authService.registerUser(cred).subscribe(result => {
             if (!result.isSuccessful) {
                 console.log(result.error);
                 this.form["email"].setErrors({error: result.error});
+            } else {
+                this.router.navigate(["/"]);
             }
 
         });

@@ -92,24 +92,6 @@ export class DataService {
             );
     }
 
-    // doesEmailExist(value: string): Observable<boolean> {
-    //     return this.http.get<boolean>(`https://localhost:44348/api/account/IsExistByEmail?email=${value}`);
-    // }
-
-    registerUser(user: IUser): Observable<IAuthResult> {
-        return this.http.post("https://localhost:44348/api/account", user, {responseType: "text"})
-            .pipe(
-                map(result => {
-                    localStorage.setItem("token", result);
-                    return {isSuccessful: true, error: null} as IAuthResult;
-                }),
-                catchError(error => {
-                    const err = error as HttpErrorResponse;
-                    return of({isSuccessful: false, error: err.error} as IAuthResult);
-                })
-            );
-    }
-
     /**
      * Handle Http operation that failed.
      * Let the app continue.

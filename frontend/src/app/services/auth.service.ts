@@ -36,7 +36,7 @@ export class AuthService {
         return this.http.post("https://localhost:44348/api/account", user, {responseType: "text"})
             .pipe(
                 map(result => {
-                    this.saveToken(result);
+                    localStorage.setItem("token", result);
                     return {isSuccessful: true, error: null} as IAuthResult;
                 }),
                 catchError(error => {
