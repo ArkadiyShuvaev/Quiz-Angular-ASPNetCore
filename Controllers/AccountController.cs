@@ -39,21 +39,40 @@ namespace Quiz_Angular_ASPNetCore.Controllers
         {
             var user = new IdentityUser(credentials.Email) { Email = credentials.Email };
 
-            var result = await _userManager.CreateAsync(user, credentials.Password);
+            var result = await _userManager.CreateAsync(user, credentials.Password).ConfigureAwait(false);
             if (!result.Succeeded) return BadRequest(result.Errors);
 
-            await _signInManager.SignInAsync(user, isPersistent: false);
+            await _signInManager.SignInAsync(user, isPersistent: false).ConfigureAwait(false);
 
+            return Ok(CreateToken(user));
+        }
+
+        private string CreateToken(IdentityUser user)
+        {
             var claims = new Claim[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id)
             };
 
-
             var signCred = new SigningCredentials(SigningKey, SecurityAlgorithms.HmacSha256);
             var jwt = new JwtSecurityToken(signingCredentials: signCred, claims: claims);
 
-            return Ok(new JwtSecurityTokenHandler().WriteToken(jwt));
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
+
+        [HttpPost(nameof(Login))]
+        public async Task<IActionResult> Login([FromBody] Credentials credentials)
+        {
+            var result = await _signInManager.PasswordSignInAsync(credentials.Email, credentials.Password, false, false);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.ToString());
+            }
+
+            var user = await _userManager.FindByEmailAsync(credentials.Email).ConfigureAwait(false);
+
+            return Ok(CreateToken(user));
         }
 
         //[HttpGet("IsExistByEmail")]

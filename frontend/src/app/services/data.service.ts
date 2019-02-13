@@ -8,7 +8,7 @@ import {catchError, tap, map } from "rxjs/operators";
 import IQuestion from "../IQuestion";
 import IQuiz from "../IQuiz";
 import { QuestionsComponent } from "../components/questions/questions.component";
-import IRegisterResult from "../IRegisterResult";
+import IAuthResult from "../IAuthResult";
 import IUser from "../IUser";
 
 
@@ -96,16 +96,16 @@ export class DataService {
     //     return this.http.get<boolean>(`https://localhost:44348/api/account/IsExistByEmail?email=${value}`);
     // }
 
-    registerUser(user: IUser): Observable<IRegisterResult> {
+    registerUser(user: IUser): Observable<IAuthResult> {
         return this.http.post("https://localhost:44348/api/account", user, {responseType: "text"})
             .pipe(
                 map(result => {
                     localStorage.setItem("token", result);
-                    return {isSuccessful: true, error: null} as IRegisterResult;
+                    return {isSuccessful: true, error: null} as IAuthResult;
                 }),
                 catchError(error => {
                     const err = error as HttpErrorResponse;
-                    return of({isSuccessful: false, error: err.error} as IRegisterResult);
+                    return of({isSuccessful: false, error: err.error} as IAuthResult);
                 })
             );
     }
