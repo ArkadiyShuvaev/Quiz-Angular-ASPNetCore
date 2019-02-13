@@ -55,7 +55,9 @@ namespace Quiz_Angular_ASPNetCore.Controllers
             };
 
             var signCred = new SigningCredentials(SigningKey, SecurityAlgorithms.HmacSha256);
-            var jwt = new JwtSecurityToken(signingCredentials: signCred, claims: claims);
+            var jwt = new JwtSecurityToken(signingCredentials: signCred,
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(1));
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
