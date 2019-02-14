@@ -20,13 +20,14 @@ import { RegisterComponent } from "./components/register/register.component";
 import { AuthInterceptorService } from "./services/auth.interceptor.service";
 import { LoginComponent } from "./components/login/login.component";
 import { LogoutComponent } from "./components/logout/logout.component";
+import { PlayComponent } from "./components/play/play.component";
 
 const routes = [
     { path: "", component: HomeComponent},
     { path: "question", component: QuestionComponent},
     { path: "questions", component: QuestionsComponent},
     { path: "questions/:quizId", component: QuestionComponent},
-    { path: "quiz", component: QuizComponent},
+    { path: "play", component: PlayComponent},
     { path: "register", component: RegisterComponent},
     { path: "login", component: LoginComponent},
     { path: "logout", component: LogoutComponent}
@@ -42,7 +43,8 @@ const routes = [
     QuizListComponent,
     RegisterComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    PlayComponent
   ],
   imports: [
     BrowserModule,

@@ -92,6 +92,14 @@ export class DataService {
             );
     }
 
+    getAllQuizzes(): Observable<IQuiz[]> {
+        return this.http.get<IQuiz[]>("https://localhost:44348/api/quizzes/getAll")
+            .pipe(
+                tap(_ => console.log("fetched all quizzes")),
+                catchError(this.handleError<IQuiz[]>("getAllQuizzes", []))
+            );
+    }
+
     /**
      * Handle Http operation that failed.
      * Let the app continue.
