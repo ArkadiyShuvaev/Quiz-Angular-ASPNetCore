@@ -17,7 +17,10 @@ export class QuestionComponent implements OnInit {
             console.log("_quizId: " + this._quizId);
         }
 
-    question: IQuestion = { text: "", quizId: 0 };
+    question: IQuestion = {
+        text: "", quizId: 0, correctAnswer: "", answer1: "", answer2: "", answer3: ""
+    };
+
     _quizId = 0;
     isNewQuestion: boolean = this.question.id === undefined;
 

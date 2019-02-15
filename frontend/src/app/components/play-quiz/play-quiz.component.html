@@ -1,0 +1,11 @@
+<div class="card">
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li
+                class="list-group-item list-group-item-action"
+                *ngFor="let question of questions">
+                <app-play-quiz-question-details [question]=question></app-play-quiz-question-details>
+            </li>
+        </ul>
+    </div>
+</div>

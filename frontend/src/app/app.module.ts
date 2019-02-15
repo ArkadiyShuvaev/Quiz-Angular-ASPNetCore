@@ -4,9 +4,10 @@ import { FormsModule } from "@angular/forms";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 
+import { nameof } from "./helpers";
+import IQuiz from "./IQuiz";
+
 import { QuestionComponent } from "./components/question/question.component";
-
-
 import { DataService } from "./services/data.service";
 import { HttpClient, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpClientModule } from "@angular/common/http";
@@ -20,17 +21,21 @@ import { RegisterComponent } from "./components/register/register.component";
 import { AuthInterceptorService } from "./services/auth.interceptor.service";
 import { LoginComponent } from "./components/login/login.component";
 import { LogoutComponent } from "./components/logout/logout.component";
-import { PlayComponent } from "./components/play/play.component";
+import { PlayListComponent } from "./components/play-list/play-list.component";
+import { PlayQuizComponent } from "./components/play-quiz/play-quiz.component";
+import { PlayQuizQuestionDetailsComponent } from './components/play-quiz-question-details/play-quiz-question-details.component';
+
 
 const routes = [
     { path: "", component: HomeComponent},
     { path: "question", component: QuestionComponent},
     { path: "questions", component: QuestionsComponent},
     { path: "questions/:quizId", component: QuestionComponent},
-    { path: "play", component: PlayComponent},
+    { path: "play", component: PlayListComponent},
     { path: "register", component: RegisterComponent},
     { path: "login", component: LoginComponent},
-    { path: "logout", component: LogoutComponent}
+    { path: "logout", component: LogoutComponent},
+    { path: `playQuiz/:${nameof<IQuiz>("id")}`, component: PlayQuizComponent}
 ];
 @NgModule({
   declarations: [
@@ -44,7 +49,9 @@ const routes = [
     RegisterComponent,
     LoginComponent,
     LogoutComponent,
-    PlayComponent
+    PlayListComponent,
+    PlayQuizComponent,
+    PlayQuizQuestionDetailsComponent
   ],
   imports: [
     BrowserModule,
