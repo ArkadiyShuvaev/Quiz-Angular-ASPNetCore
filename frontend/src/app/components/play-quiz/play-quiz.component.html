@@ -1,6 +1,6 @@
 <div *ngFor="let question of store.quizQuestions; let isFirst = first">
     <div [ngClass]="isFirst ? 'card-first' : ''">
-        <app-play-quiz-question-details [question]=question>
+        <app-play-quiz-question-details [question]=question [store]=store>
         </app-play-quiz-question-details>
     </div>
 </div>

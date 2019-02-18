@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
 import IQuestion from "src/app/IQuestion";
+import { QuizQuestionStoreService } from "src/app/services/quiz-question-store.service";
+import { store } from "@angular/core/src/render3";
+import IShuffledQuestion from "src/app/IShuffledQuestion";
 
 @Component({
   selector: "app-play-quiz-question-details",
@@ -8,20 +11,29 @@ import IQuestion from "src/app/IQuestion";
 })
 export class PlayQuizQuestionDetailsComponent implements OnInit {
 
-    @Input() question: IQuestion;
+    @Input() question: IShuffledQuestion;
+    @Input() store: QuizQuestionStoreService;
+
     answers: string[];
 
     constructor() { }
 
     ngOnInit() {
-        const questionAnswers = [ this.question.correctAnswer,
+        this.answers = [ this.question.answer4,
             this.question.answer1,
             this.question.answer2,
             this.question.answer3 ];
 
-        this.answers = this.shuffle(questionAnswers);
-        console.log(this.answers);
+        // this.answers = this.shuffle(questionAnswers);
+        // console.log(this.answers);
     }
+
+
+    select(val: string) {
+        console.log(val);
+        this.store.setAnswered(this.question.id, val);
+    }
+
 
     shuffle(arr: string[]): string[] {
         let currentIndex: number = arr.length;

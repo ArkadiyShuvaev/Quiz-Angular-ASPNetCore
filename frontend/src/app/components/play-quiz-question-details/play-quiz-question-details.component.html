@@ -7,6 +7,7 @@
             type="radio"
             id="{{'customRadio_' + question.id + '0' }}"
             name="{{ 'customRadioName_' + question.id }}"
+            (click)="select(answers[0])"
             class="form-check-input">
         <label
             class="form-check-label"
@@ -19,6 +20,7 @@
                 type="radio"
                 id="{{'customRadio_' + question.id + '1' }}"
                 name="{{ 'customRadioName_' + question.id }}"
+                (click)="select(answers[1])"
                 class="form-check-input">
             <label
                 class="form-check-label"
@@ -31,6 +33,7 @@
                 type="radio"
                 id="{{'customRadio_' + question.id + '2' }}"
                 name="{{ 'customRadioName_' + question.id }}"
+                (click)="select(answers[2])"
                 class="form-check-input">
             <label
                 class="form-check-label"
@@ -43,6 +46,7 @@
                 type="radio"
                 id="{{'customRadio_' + question.id + '3' }}"
                 name="{{ 'customRadioName_' + question.id }}"
+                (click)="select(answers[3])"
                 class="form-check-input">
             <label
                 class="form-check-label"

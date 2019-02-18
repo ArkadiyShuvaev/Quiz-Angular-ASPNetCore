@@ -10,6 +10,8 @@ import IQuiz from "../IQuiz";
 import { QuestionsComponent } from "../components/questions/questions.component";
 import IAuthResult from "../IAuthResult";
 import IUser from "../IUser";
+import IShuffledQuestion from "../IShuffledQuestion";
+import IPlayQuiz from "../IPlayQuiz";
 
 
 @Injectable({
@@ -58,6 +60,15 @@ export class DataService {
                 tap(_ => console.log(`fetched questions with id: ${quizId}`)),
                     catchError(this.handleError<IQuiz>("updateQuiz", {} as IQuiz)),
                 map<IQuiz, IQuestion[]>(resp => resp.questions),
+            );
+    }
+
+    getShuffledQuestionsByQuizId(quizId: number): Observable<IShuffledQuestion[]> {
+        return this.http.get<IPlayQuiz>("https://localhost:44348/api/play/" + quizId)
+            .pipe(
+                tap(_ => console.log(`fetched questions with id: ${quizId}`)),
+                    catchError(this.handleError<IPlayQuiz>("updateQuiz", {} as IPlayQuiz)),
+                map<IPlayQuiz, IShuffledQuestion[]>(resp => resp.questions),
             );
     }
 

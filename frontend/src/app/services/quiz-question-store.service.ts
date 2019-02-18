@@ -4,6 +4,7 @@ import { IAnsweredQuestion } from "../IAnsweredQuestion";
 import { shareReplay } from "rxjs/operators";
 import IQuestion from "../IQuestion";
 import { DataService } from "./data.service";
+import IShuffledQuestion from "../IShuffledQuestion";
 
 @Injectable({
   providedIn: "root"
@@ -15,17 +16,17 @@ export class QuizQuestionStoreService {
     }
 
     private readonly _answeredQuestions = new BehaviorSubject<IAnsweredQuestion[]>([]);
-    private readonly _quizQuestions = new BehaviorSubject<IQuestion[]>([]);
+    private readonly _quizQuestions = new BehaviorSubject<IShuffledQuestion[]>([]);
 
     readonly answeredQuestions$ = this._answeredQuestions.asObservable().pipe(
         shareReplay(1)
     );
 
-    get quizQuestions(): IQuestion[] {
+    get quizQuestions(): IShuffledQuestion[] {
         return this._quizQuestions.getValue();
     }
 
-    set quizQuestions(val: IQuestion[]) {
+    set quizQuestions(val: IShuffledQuestion[]) {
         this._quizQuestions.next(val);
     }
 
@@ -52,6 +53,6 @@ export class QuizQuestionStoreService {
 
 
     async fetchAll(quizId: number) {
-        this.quizQuestions = await this.dataService.getQuestionsByQuizId(quizId).toPromise();
+        this.quizQuestions = await this.dataService.getShuffledQuestionsByQuizId(quizId).toPromise();
     }
 }
