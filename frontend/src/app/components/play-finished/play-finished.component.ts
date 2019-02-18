@@ -43,10 +43,6 @@ export class PlayFinishedComponent implements AfterViewInit {
     ngAfterViewInit() {
         this.modalElement = $(this._rootNode.nativeElement).find("div.modal");
     }
-
-    has(selector) {
-        return $(this._rootNode.nativeElement).find(selector).length;
-    }
 }
 
 let modalId = 0;
