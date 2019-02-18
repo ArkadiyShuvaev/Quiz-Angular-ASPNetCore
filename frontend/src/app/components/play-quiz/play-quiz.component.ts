@@ -3,8 +3,9 @@ import { ActivatedRoute } from "@angular/router";
 import { nameof } from "../../helpers";
 import IQuiz from "src/app/IQuiz";
 import { DataService } from "src/app/services/data.service";
-import IQuestion from "src/app/IQuestion";
+// import IQuestion from "src/app/IQuestion";
 import { PlayFinishedComponent } from "../play-finished/play-finished.component";
+import { QuizQuestionStoreService } from "src/app/services/quiz-question-store.service";
 
 @Component({
   selector: "app-play-quiz",
@@ -13,15 +14,19 @@ import { PlayFinishedComponent } from "../play-finished/play-finished.component"
 })
 export class PlayQuizComponent implements OnInit {
 
-    questions: IQuestion[] = [];
+    // questions: IQuestion[] = [];
     private _modal: PlayFinishedComponent = null;
+    store: QuizQuestionStoreService = null;
 
-    constructor(private dataService: DataService, private router: ActivatedRoute) { }
+    constructor(private dataService: DataService,
+        private router: ActivatedRoute) { }
 
     ngOnInit() {
         const quizId = +this.router.snapshot.paramMap.get(nameof<IQuiz>("id"));
-            this.dataService.getQuestionsByQuizId(quizId)
-            .subscribe(res => this.questions = res);
+            // this.dataService.getQuestionsByQuizId(quizId)
+            // .subscribe(res => this.questions = res);
+
+        this.store = new QuizQuestionStoreService(this.dataService, quizId);
     }
 
     bindModal(modalElement: PlayFinishedComponent) {

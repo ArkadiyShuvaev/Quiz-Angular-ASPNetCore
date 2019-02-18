@@ -1,4 +1,4 @@
-<div *ngFor="let question of questions; let isFirst = first">
+<div *ngFor="let question of store.quizQuestions; let isFirst = first">
     <div [ngClass]="isFirst ? 'card-first' : ''">
         <app-play-quiz-question-details [question]=question>
         </app-play-quiz-question-details>
