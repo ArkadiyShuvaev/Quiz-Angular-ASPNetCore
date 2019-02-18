@@ -24,6 +24,7 @@ import { LogoutComponent } from "./components/logout/logout.component";
 import { PlayListComponent } from "./components/play-list/play-list.component";
 import { PlayQuizComponent } from "./components/play-quiz/play-quiz.component";
 import { PlayQuizQuestionDetailsComponent } from './components/play-quiz-question-details/play-quiz-question-details.component';
+import { PlayFinishedComponent } from './components/play-finished/play-finished.component';
 
 
 const routes = [
@@ -51,7 +52,8 @@ const routes = [
     LogoutComponent,
     PlayListComponent,
     PlayQuizComponent,
-    PlayQuizQuestionDetailsComponent
+    PlayQuizQuestionDetailsComponent,
+    PlayFinishedComponent
   ],
   imports: [
     BrowserModule,
