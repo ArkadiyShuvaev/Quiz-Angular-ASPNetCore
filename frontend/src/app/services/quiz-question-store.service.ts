@@ -1,24 +1,31 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { IAnsweredQuestion } from "../IAnsweredQuestion";
-import { shareReplay } from "rxjs/operators";
+import { shareReplay, tap, map } from "rxjs/operators";
 import IQuestion from "../IQuestion";
 import { DataService } from "./data.service";
 import IShuffledQuestion from "../IShuffledQuestion";
+import { IValidatedQuestion } from "../IValidatedQuestion";
+import IValidateQuiz from "../IValidateQuiz";
 
 @Injectable({
   providedIn: "root"
 })
 export class QuizQuestionStoreService {
 
-    constructor(private dataService: DataService, quizId: number) {
+    constructor(private dataService: DataService, private quizId: number) {
         this.fetchAll(quizId);
     }
 
     private readonly _answeredQuestions = new BehaviorSubject<IAnsweredQuestion[]>([]);
     private readonly _quizQuestions = new BehaviorSubject<IShuffledQuestion[]>([]);
+    private readonly _validatedQuestions = new BehaviorSubject<IValidatedQuestion[]>([]);
 
     readonly answeredQuestions$ = this._answeredQuestions.asObservable().pipe(
+        shareReplay(1)
+    );
+
+    readonly validatedQuestions$ = this._validatedQuestions.asObservable().pipe(
         shareReplay(1)
     );
 
@@ -30,22 +37,35 @@ export class QuizQuestionStoreService {
         this._quizQuestions.next(val);
     }
 
-    get anweredQuestions(): IAnsweredQuestion[] {
+    get answeredQuestions(): IAnsweredQuestion[] {
         return this._answeredQuestions.getValue();
     }
 
-    set anweredQuestions(val: IAnsweredQuestion[]) {
+    set answeredQuestions(val: IAnsweredQuestion[]) {
         this._answeredQuestions.next(val);
     }
 
+    set validatedQuestions(val: IValidatedQuestion[]) {
+        this._validatedQuestions.next(val);
+    }
+
+    getValidatedQuestions() {
+        const quiz = {id: this.quizId, questions: this.answeredQuestions} as IValidateQuiz;
+        return this.dataService.validateQuestions(quiz).pipe(
+            tap(res => {
+                this.validatedQuestions = res;
+            }), map( res => res)
+        );
+    }
+
     setAnswered(id: number, answer: string) {
-        const existing = this.anweredQuestions.find(i => i.id === id);
+        const existing = this.answeredQuestions.find(i => i.id === id);
 
         if (existing) {
             existing.answer = answer;
         } else {
-            this.anweredQuestions = [
-                ...this.anweredQuestions,
+            this.answeredQuestions = [
+                ...this.answeredQuestions,
                 { id: id, answer: answer } as IAnsweredQuestion
             ];
         }

@@ -15,7 +15,7 @@ declare var $: any;
 })
 export class PlayFinishedComponent implements AfterViewInit {
 
-
+    @Input() text: string;
     @Input() title: string;
     @Input() showClose: boolean;
 

@@ -13,4 +13,6 @@
         Some content
 </app-play-finished>
 
-<button class="btn btn-primary" (click) = "open()">Done</button>
+<button [disabled]="!isAllAnswered()"
+    class="btn btn-primary"
+    (click) = "validate()">Validate</button>

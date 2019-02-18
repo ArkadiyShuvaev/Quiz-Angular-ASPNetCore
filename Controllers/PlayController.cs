@@ -51,6 +51,56 @@ namespace Quiz_Angular_ASPNetCore.Controllers
 
             return Ok(newQuiz);
         }
+    
+        [HttpPost()]
+        public async Task<IActionResult> PostValidate([FromBody] QuizForValidation quiz)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingQuiz = await _context.Quizzes
+                .Include(nameof(Quiz.Questions))
+                .FirstOrDefaultAsync(q => q.Id == quiz.Id)
+                .ConfigureAwait(false);
+
+            if (existingQuiz == null)
+            {
+                return NotFound();
+            }
+
+            ValidatedQuizDto result = GetValidatedQuiz(existingQuiz, quiz);
+
+            return Ok(result);
+        }
+
+        private ValidatedQuizDto GetValidatedQuiz(Quiz existingQuiz, QuizForValidation quizForValidation)
+        {
+            var result = new ValidatedQuizDto
+            {
+                Id = existingQuiz.Id,
+                Questions = new List<ValidatedQuestionDto>()
+            };
+
+            quizForValidation.Questions.ForEach(q => {
+                var existingQuestion = existingQuiz.Questions.First(i => i.Id == q.Id);
+                var validatedQuestionDto = new ValidatedQuestionDto { Id = q.Id };
+
+                if (string.Equals(q.Answer, existingQuestion.CorrectAnswer, StringComparison.OrdinalIgnoreCase))
+                {
+                    validatedQuestionDto.IsAnswerCorrect = true;
+                }
+                else
+                {
+                    validatedQuestionDto.IsAnswerCorrect = false;
+                }
+
+                result.Questions.Add(validatedQuestionDto);
+            });
+
+            return result;
+        }
 
         private IEnumerable<ShuffledQuestionDto> ConvertToShuffledQuestionDtoList(IEnumerable<Question> questions)
         {

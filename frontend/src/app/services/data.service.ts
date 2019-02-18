@@ -12,6 +12,10 @@ import IAuthResult from "../IAuthResult";
 import IUser from "../IUser";
 import IShuffledQuestion from "../IShuffledQuestion";
 import IPlayQuiz from "../IPlayQuiz";
+import { IAnsweredQuestion } from "../IAnsweredQuestion";
+import { IValidatedQuestion } from "../IValidatedQuestion";
+import IValidateQuiz from "../IValidateQuiz";
+import { IValidatedQuiz } from "../IValidatedQuiz";
 
 
 @Injectable({
@@ -66,9 +70,18 @@ export class DataService {
     getShuffledQuestionsByQuizId(quizId: number): Observable<IShuffledQuestion[]> {
         return this.http.get<IPlayQuiz>("https://localhost:44348/api/play/" + quizId)
             .pipe(
-                tap(_ => console.log(`fetched questions with id: ${quizId}`)),
-                    catchError(this.handleError<IPlayQuiz>("updateQuiz", {} as IPlayQuiz)),
+                tap(_ => console.log(`fetched questions with id: ${quizId}`),
+                    catchError(this.handleError<IPlayQuiz>("updateQuiz", {} as IPlayQuiz))),
                 map<IPlayQuiz, IShuffledQuestion[]>(resp => resp.questions),
+            );
+    }
+
+    validateQuestions(quiz: IValidateQuiz): Observable<IValidatedQuestion[]> {
+        return this.http.post<IValidatedQuiz>("https://localhost:44348/api/play/", quiz)
+            .pipe(
+                tap(_ => console.log(`fetched quiz avalidated questions with id: ${quiz.id}`),
+                    catchError(this.handleError<IPlayQuiz>("validateQuestions", {} as IPlayQuiz))),
+                map<IValidatedQuiz, IValidatedQuestion[]>(resp => resp.questions),
             );
     }
 
