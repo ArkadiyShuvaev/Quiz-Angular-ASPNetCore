@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { IAnsweredQuestion } from "../IAnsweredQuestion";
 import { shareReplay, tap, map } from "rxjs/operators";
 import IQuestion from "../IQuestion";
@@ -49,7 +49,7 @@ export class QuizQuestionStoreService {
         this._validatedQuestions.next(val);
     }
 
-    getValidatedQuestions() {
+    validateQuestions(): Observable<IValidatedQuestion[]> {
         const quiz = {id: this.quizId, questions: this.answeredQuestions} as IValidateQuiz;
         return this.dataService.validateQuestions(quiz).pipe(
             tap(res => {

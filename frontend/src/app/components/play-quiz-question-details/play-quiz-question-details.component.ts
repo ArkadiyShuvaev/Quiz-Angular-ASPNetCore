@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import IQuestion from "src/app/IQuestion";
 import { QuizQuestionStoreService } from "src/app/services/quiz-question-store.service";
-import { store } from "@angular/core/src/render3";
 import IShuffledQuestion from "src/app/IShuffledQuestion";
 
 @Component({

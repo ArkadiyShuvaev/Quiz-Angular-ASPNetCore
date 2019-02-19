@@ -7,6 +7,7 @@ import { DataService } from "src/app/services/data.service";
 import { PlayFinishedComponent } from "../play-finished/play-finished.component";
 import { QuizQuestionStoreService } from "src/app/services/quiz-question-store.service";
 import { IValidatedQuestion } from "src/app/IValidatedQuestion";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-play-quiz",
@@ -34,9 +35,17 @@ export class PlayQuizComponent implements OnInit {
         return this.store.answeredQuestions.length === this.store.quizQuestions.length;
     }
 
+    getCorrectAnswerCount() {
+        return this.store.validatedQuestions$.pipe(
+            map(res => {
+                return res.filter(i => i.isAnswerCorrect).length;
+            })
+        );
+    }
+
     validate() {
 
-        this.store.getValidatedQuestions().subscribe(res => {
+        this.store.validateQuestions().subscribe(res => {
             const correctQuestions: IValidatedQuestion[]
                 = res.filter(q => q.isAnswerCorrect);
             const text = `Your score: ${correctQuestions.length} out of ${res.length}`;

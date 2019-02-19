@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/map";
 import { of } from "rxjs/observable/of";
 import {catchError, tap, map } from "rxjs/operators";
 import IQuestion from "../IQuestion";
