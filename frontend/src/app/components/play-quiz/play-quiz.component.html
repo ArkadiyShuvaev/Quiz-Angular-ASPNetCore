@@ -1,4 +1,4 @@
-<div class="row card-first" *ngIf="(getCorrectAnswerCount() | async) > 0">
+<div class="row first-row" *ngIf="(getCorrectAnswerCount() | async) > 0">
     <div class="col-md-3 offset-md-9">
         <div class="text-right font-weight-bold">{{ (getCorrectAnswerCount() | async) }}
             correct answer(s) out of
@@ -8,7 +8,7 @@
 </div>
 
 <div *ngFor="let question of store.quizQuestions; let isFirst = first">
-    <div [ngClass]="isFirst ? 'card-first' : ''">
+    <div [ngClass]="isFirst ? 'first-row' : ''">
         <app-play-quiz-question-details [question]=question [store]=store>
         </app-play-quiz-question-details>
     </div>
