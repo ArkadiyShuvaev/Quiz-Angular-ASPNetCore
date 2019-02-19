@@ -45,6 +45,10 @@ export class QuizQuestionStoreService {
         this._answeredQuestions.next(val);
     }
 
+    get validatedQuestions(): IValidatedQuestion[] {
+        return this._validatedQuestions.getValue();
+    }
+
     set validatedQuestions(val: IValidatedQuestion[]) {
         this._validatedQuestions.next(val);
     }

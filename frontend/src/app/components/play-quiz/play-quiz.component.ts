@@ -18,10 +18,12 @@ import { store } from "@angular/core/src/render3";
 export class PlayQuizComponent implements OnInit {
 
     private _modal: PlayFinishedComponent = null;
+    private isValidated = false;
     private quizId: number;
 
     store: QuizQuestionStoreService = null;
-    hasBeenEverValidated = false;
+    hasQuizBeenEverValidated = false;
+
 
     constructor(private dataService: DataService,
         private router: ActivatedRoute) { }
@@ -33,6 +35,23 @@ export class PlayQuizComponent implements OnInit {
 
     bindModal(modalElement: PlayFinishedComponent) {
         this._modal = modalElement;
+    }
+
+    get isValidateBtnEnabled(): boolean {
+        return this.isAllAnswered() && !this.isValidated;
+    }
+
+    get isPlayAgainBtnVisible(): boolean {
+
+        if (this.correctAnwerCount === this.store.quizQuestions.length) {
+            return false;
+        }
+
+        return this.isAllAnswered() && this.isValidated;
+    }
+
+    get correctAnwerCount(): number {
+        return this.store.validatedQuestions.filter(i => i.isAnswerCorrect).length;
     }
 
     isAllAnswered(): boolean {
@@ -51,8 +70,9 @@ export class PlayQuizComponent implements OnInit {
 
         this.store.validateQuestions().subscribe(res => {
 
+            // just for Observation learning I have used the subscribe here
             this.getCorrectAnswerCount().subscribe(correctAnswerCount => {
-                this.hasBeenEverValidated = true;
+                this.hasQuizBeenEverValidated = true;
                 const text = `Your score: ${correctAnswerCount} out of ${res.length}.`;
 
                 if (correctAnswerCount === this.store.quizQuestions.length) {
@@ -72,8 +92,11 @@ export class PlayQuizComponent implements OnInit {
         });
     }
 
-    onClose(isQuizRepeat: boolean) {
-        if (isQuizRepeat) {
+    onClose(shouldQuizBeReplayed: boolean) {
+        this.isValidated = true;
+
+        if (shouldQuizBeReplayed) {
+            this.isValidated = false;
             this.store.reloadData(this.quizId);
         }
     }

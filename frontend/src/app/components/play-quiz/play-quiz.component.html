@@ -1,29 +1,38 @@
-<div class="row first-row" *ngIf="hasBeenEverValidated > 0">
-    <div class="col-md-3 offset-md-9">
-        <div class="text-right font-weight-bold">{{ (getCorrectAnswerCount() | async) }}
-            correct answer(s) out of
-            {{ store.quizQuestions.length }}
+<div class="play-quiz-component">
+    <div class="row first-row" *ngIf="hasQuizBeenEverValidated > 0">
+        <div class="col-md-3 offset-md-9">
+            <!-- just for async learning -->
+            <div class="text-right font-weight-bold">{{ (getCorrectAnswerCount() | async) }}
+                correct answer(s) out of
+                {{ store.quizQuestions.length }}
+            </div>
         </div>
     </div>
-</div>
 
-<div *ngFor="let question of store.quizQuestions; let isFirst = first">
-    <div [ngClass]="isFirst ? 'first-row' : ''">
-        <app-play-quiz-question-details [question]=question [store]=store>
-        </app-play-quiz-question-details>
+    <div *ngFor="let question of store.quizQuestions; let isFirst = first">
+        <div [ngClass]="isFirst ? 'first-row' : ''">
+            <app-play-quiz-question-details [question]=question [store]=store>
+            </app-play-quiz-question-details>
+        </div>
     </div>
+
+    <app-play-finished
+        [title]="'The title will be displayed here'"
+        [showClose]="true"
+        [isDisplayRepeatBtn]=false
+        (onClose)="onClose($event)" #editModal>
+            {{ bindModal(editModal) }}
+            A result will be displayed here
+    </app-play-finished>
+
+    <button [disabled]="!isValidateBtnEnabled"
+        type="button"
+        class="btn btn-primary"
+        (click) = "validate()">Validate
+    </button>
+    <button *ngIf="isPlayAgainBtnVisible"
+        type="button"
+        class="btn btn-secondary"
+        (click)="onClose(true)">Play again
+    </button>
 </div>
-
-<app-play-finished
-    [title]="'The title will be displayed here'"
-    [showClose]="true"
-    [isDisplayRepeatBtn]=false
-    (onClose)="onClose($event)" #editModal>
-        {{ bindModal(editModal) }}
-        A result will be displayed here
-</app-play-finished>
-
-<button [disabled]="!isAllAnswered()"
-    class="btn btn-primary"
-    (click) = "validate()">Validate</button>
-
