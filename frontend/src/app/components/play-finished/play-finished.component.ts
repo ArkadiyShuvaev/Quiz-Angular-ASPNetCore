@@ -18,6 +18,7 @@ export class PlayFinishedComponent implements AfterViewInit {
     @Input() text: string;
     @Input() title: string;
     @Input() showClose: boolean;
+    @Input() isDisplayRepeatBtn: boolean;
 
     // tslint:disable-next-line:no-output-on-prefix
     @Output() onClose: EventEmitter<any> = new EventEmitter();
@@ -35,9 +36,10 @@ export class PlayFinishedComponent implements AfterViewInit {
         this.modalElement.modal("hide");
     }
 
-    close() { // close modal when click on times button in up-right corner
-        this.onClose.next(null); // emit event
+    close(isTestRepeat: boolean = false) { // close modal when click on times button in up-right corner
         this.closeInternal();
+        this.onClose.next(isTestRepeat); // emit event
+
     }
 
     ngAfterViewInit() {

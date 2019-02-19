@@ -71,6 +71,10 @@ export class QuizQuestionStoreService {
         }
     }
 
+    async reloadData(quizId: number) {
+        this.answeredQuestions = [];
+        this.quizQuestions = await this.dataService.getShuffledQuestionsByQuizId(quizId).toPromise();
+    }
 
     async fetchAll(quizId: number) {
         this.quizQuestions = await this.dataService.getShuffledQuestionsByQuizId(quizId).toPromise();

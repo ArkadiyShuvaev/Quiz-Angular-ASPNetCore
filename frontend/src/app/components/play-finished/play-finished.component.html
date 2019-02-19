@@ -14,6 +14,7 @@
 
             <div class="modal-footer">
                 <button class='btn btn-primary' (click)="close()">Close</button>
+                <button *ngIf="isDisplayRepeatBtn" class='btn btn-secondary' (click)="close(true)">Play again</button>
             </div>
         </div>
     </div>
