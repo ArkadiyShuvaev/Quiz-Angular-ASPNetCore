@@ -4,6 +4,7 @@
             <li class="list-group-item list-group-item-action"
                 *ngFor="let quiz of quizzes"
                 (click)="selectQuiz(quiz)">{{quiz.title}}
+                <span class="badge badge-pill badge-secondary">{{quiz.questionCount}}</span>
             </li>
         </ul>
     </div>

@@ -75,6 +75,21 @@ namespace Quiz_Angular_ASPNetCore.Controllers
             return Ok(result);
         }
 
+        [HttpGet(nameof(GetPlayList))]
+        public IEnumerable<PlayQuizList> GetPlayList()
+        {
+            var quizzes = _context.Quizzes;
+
+            var result = quizzes.Select(q => new PlayQuizList
+            {
+                Id = q.Id,
+                Title = q.Title,
+                QuestionCount = _context.Questions.Count(i => i.QuizId == q.Id)
+            });
+
+            return result;
+        }
+
         private ValidatedQuizDto GetValidatedQuiz(Quiz existingQuiz, QuizForValidation quizForValidation)
         {
             var result = new ValidatedQuizDto

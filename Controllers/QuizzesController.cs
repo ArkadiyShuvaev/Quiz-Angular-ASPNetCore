@@ -32,12 +32,6 @@ namespace Quiz_Angular_ASPNetCore.Controllers
             return _context.Quizzes.Include(nameof(Quiz.Questions)).Where(q => q.OwnerId == userId);
         }
 
-        [HttpGet(nameof(GetAll))]
-        public IEnumerable<Quiz> GetAll()
-        {
-            return _context.Quizzes;
-        }
-
 
         // GET: api/Quizzes/5
         [HttpGet("{quizId}")]

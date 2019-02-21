@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { DataService } from "src/app/services/data.service";
-import IQuiz from "src/app/IQuiz";
-import { Route } from "@angular/compiler/src/core";
 import { Router } from "@angular/router";
+
+import { DataService } from "src/app/services/data.service";
+import IQuizList from "src/app/IQuizList";
 
 @Component({
   selector: "app-play-list",
@@ -10,16 +10,16 @@ import { Router } from "@angular/router";
   styleUrls: ["./play-list.component.css"]
 })
 export class PlayListComponent implements OnInit {
-    quizzes: IQuiz[];
+    quizzes: IQuizList[];
 
     constructor(private dataService: DataService, private router: Router) { }
 
-    selectQuiz(quiz: IQuiz) {
+    selectQuiz(quiz: IQuizList) {
         this.router.navigate([`/playQuiz/${quiz.id}`]);
     }
 
     ngOnInit() {
-        this.dataService.getAllQuizzes().subscribe(res => {
+        this.dataService.getPlayList().subscribe(res => {
             this.quizzes = res;
         });
     }

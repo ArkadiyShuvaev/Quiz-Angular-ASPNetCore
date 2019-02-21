@@ -1,20 +1,18 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
 import { of } from "rxjs/observable/of";
 import {catchError, tap, map } from "rxjs/operators";
+
 import IQuestion from "../IQuestion";
 import IQuiz from "../IQuiz";
-import { QuestionsComponent } from "../components/questions/questions.component";
-import IAuthResult from "../IAuthResult";
-import IUser from "../IUser";
 import IShuffledQuestion from "../IShuffledQuestion";
 import IPlayQuiz from "../IPlayQuiz";
-import { IAnsweredQuestion } from "../IAnsweredQuestion";
 import { IValidatedQuestion } from "../IValidatedQuestion";
 import IValidateQuiz from "../IValidateQuiz";
 import { IValidatedQuiz } from "../IValidatedQuiz";
+import IQuizList from "../IQuizList";
 
 
 @Injectable({
@@ -115,11 +113,11 @@ export class DataService {
             );
     }
 
-    getAllQuizzes(): Observable<IQuiz[]> {
-        return this.http.get<IQuiz[]>("https://localhost:44348/api/quizzes/getAll")
+    getPlayList(): Observable<IQuizList[]> {
+        return this.http.get<IQuizList[]>("https://localhost:44348/api/play/getPlayList")
             .pipe(
                 tap(_ => console.log("fetched all quizzes")),
-                catchError(this.handleError<IQuiz[]>("getAllQuizzes", []))
+                catchError(this.handleError<IQuizList[]>("getPlayList", []))
             );
     }
 
