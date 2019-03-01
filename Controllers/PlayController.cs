@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Quiz_Angular_ASPNetCore.Infrastructure;
@@ -11,6 +12,7 @@ namespace Quiz_Angular_ASPNetCore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class PlayController : ControllerBase
     {
 
